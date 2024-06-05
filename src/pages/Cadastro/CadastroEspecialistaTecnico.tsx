@@ -18,7 +18,9 @@ const esquemaCadastroEspecialista = z.object({
   crm: z.string().min(1, "O CRM é obrigatório"),
   especialidades: z.array(z.object({
     especialidade: z.string().min(1, "A especialidade é obrigatória"),
-    anoConclusao: z.number().min(1, "O ano de conclusão é obrigatório"),
+    anoConclusao: z.coerce.number({
+      errorMap: () => ({ message: "Insira um ano de conclusão valido" }),
+    }).min(1, "O ano de conclusão é obrigatório"),
     instituicao: z.string().min(1, "A instituição é obrigatória"),
   }))
 })
@@ -76,14 +78,17 @@ const CadastroEspecialistaTecnico = () => {
                   id="campo-especialidade"
                   type="text"
                   placeholder="Qual sua especialidade?"
+                  $error={!!errors.especialidades?.[index]?.especialidade}
                   {...register(`especialidades.${index}.especialidade`)}
                 />
+                {errors.especialidades?.[index]?.especialidade && <ErrorMessage>{errors.especialidades?.[index]?.especialidade.message}</ErrorMessage>}
               </Fieldset>
 
               <FormContainer>
                 <Fieldset>
                   <Label>Ano de conclusão</Label>
-                  <Input id="campo-ano-conclusao" type="text" placeholder="2005" {...register(`especialidades.${index}.anoConclusao`)} />
+                  <Input id="campo-ano-conclusao" type="text" placeholder="2005" $error={!!errors.especialidades?.[index]?.anoConclusao} {...register(`especialidades.${index}.anoConclusao`)} />
+                  {errors.especialidades?.[index]?.anoConclusao && <ErrorMessage>{errors.especialidades?.[index]?.anoConclusao.message}</ErrorMessage>}
                 </Fieldset>
                 <Fieldset>
                   <Label>Instituição de ensino</Label>
@@ -91,8 +96,10 @@ const CadastroEspecialistaTecnico = () => {
                     id="campo-instituicao-ensino"
                     type="text"
                     placeholder="USP"
+                    $error={!!errors.especialidades?.[index]?.instituicao}
                     {...register(`especialidades.${index}.instituicao`)}
                   />
+                  {errors.especialidades?.[index]?.instituicao && <ErrorMessage>{errors.especialidades?.[index]?.instituicao.message}</ErrorMessage>}
                 </Fieldset>
               </FormContainer>
               <Divisor />
