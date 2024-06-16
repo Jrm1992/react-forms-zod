@@ -1,10 +1,10 @@
 import { Logotipo } from "../../components";
-import CadastroEspecialistaTecnico from "./CadastroEspecialistaTecnico";
+import CadastroEspecialistaEndereco from "./CadastroEspecialistaEndereco";
 export default function Cadastro() {
   return (
     <>
       <Logotipo />
-      <CadastroEspecialistaTecnico />
+      <CadastroEspecialistaEndereco />
     </>
   );
 }
